@@ -1,23 +1,21 @@
 import React from 'react';
-import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import NavigationBar from './NavigationBar/NavigationBar';
+import { navigationUrls } from './util/contants';
+import { Layout } from 'antd';
+import Homepage from './Homepage/Homepage';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout className="layout">
+      <NavigationBar />
+      <Layout>
+        <Routes>
+          <Route path={navigationUrls.home} element={<Homepage />} />
+        </Routes>
+      </Layout>
+      <Layout.Footer style={{ textAlign: 'center', background: 'white' }}>Made with &lt;3 by hamu & smarty </Layout.Footer>
+    </Layout>
   );
 }
 
