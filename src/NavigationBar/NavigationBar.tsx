@@ -1,6 +1,6 @@
-import { Affix, Menu } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { navigationUrls } from '../util/contants';
+import { Affix, Menu } from "antd";
+import { useNavigate } from "react-router-dom";
+import { navigationUrls } from "../util/contants";
 
 const NavigationBar = () => {
   const navigate = useNavigate();
@@ -11,7 +11,7 @@ const NavigationBar = () => {
 
   return (
     <Affix>
-      <Menu theme="light" mode="horizontal" defaultSelectedKeys={['home']}>
+      <Menu theme="light" mode="horizontal" defaultSelectedKeys={["home"]}>
         <Menu.Item key="home" onClick={navigateToHome}>
           Home
         </Menu.Item>

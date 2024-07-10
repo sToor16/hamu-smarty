@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-react",
+    "tslint-config-prettier",
+    "tslint-plugin-prettier"
+  ],
+  "rules": {
+    "prettier": [true, { "singleQuote": true, "semi": true }],
+    "semicolon": [true, "always"],
+    "quotemark": [true, "single", "jsx-double"],
+    "no-console": false,
+    "member-access": [true, "no-public"],
+    "jsx-no-lambda": false,
+    "object-literal-sort-keys": false,
+    "max-line-length": [true, 200]
+  }
+}
