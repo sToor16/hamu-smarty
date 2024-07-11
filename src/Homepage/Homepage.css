@@ -1,0 +1,10 @@
+.layout-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.center-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

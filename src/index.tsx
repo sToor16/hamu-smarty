@@ -1,11 +1,9 @@
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
-import "./index.css";
-
-const rootElement = document.getElementById("root");
+const rootElement = document.getElementById('root');
 
 // Type assertion to ensure non-null value
 const root = ReactDOM.createRoot(rootElement as HTMLElement);
@@ -13,7 +11,7 @@ const root = ReactDOM.createRoot(rootElement as HTMLElement);
 root.render(
   <BrowserRouter>
     <App />
-  </BrowserRouter>,
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function
