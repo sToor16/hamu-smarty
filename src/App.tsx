@@ -1,26 +1,71 @@
 import { Layout } from "antd";
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import LoginPage from "./Auth/LoginPage";
+import ProtectedRoute from "./Auth/ProtectedRoute";
 import Homepage from "./Homepage/Homepage";
 import NavigationBar from "./NavigationBar/NavigationBar";
 import { navigationUrls } from "./util/contants";
 
 const App: React.FC = () => {
+  // Manage authentication state
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    localStorage.getItem("authenticated") === "true",
+  );
+  const navigate = useNavigate();
+
+  // Listen to changes in localStorage for authentication status
+  useEffect(() => {
+    const authListener = () => {
+      const authStatus = localStorage.getItem("authenticated") === "true";
+      setIsAuthenticated(authStatus);
+    };
+
+    window.addEventListener("storage", authListener);
+
+    return () => {
+      window.removeEventListener("storage", authListener);
+    };
+  }, []);
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate(navigationUrls.login);
+    }
+  }, [isAuthenticated, navigate]);
+
   return (
     <Layout className="layout">
-      <NavigationBar />
+      {isAuthenticated && (
+        <NavigationBar setIsAuthenticated={setIsAuthenticated} />
+      )}
       <Layout>
         <Routes>
-          <Route path={navigationUrls.home} element={<Homepage />} />
+          <Route
+            path={navigationUrls.login}
+            element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
+          />
+          <Route
+            path={navigationUrls.home}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Homepage />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Layout>
-      <Layout.Footer style={{ textAlign: "center", background: "white" }}>
-        Made with &nbsp;
-        <span role="img" aria-label="heart">
-          ❤️
-        </span>
-        &nbsp; by Hamu & Smarty
-      </Layout.Footer>
+
+      {isAuthenticated && (
+        <Layout.Footer style={{ textAlign: "center", background: "white" }}>
+          Made with &nbsp;
+          <span role="img" aria-label="heart">
+            ❤️
+          </span>
+          &nbsp; by Hamu & Smarty
+        </Layout.Footer>
+      )}
     </Layout>
   );
 };
