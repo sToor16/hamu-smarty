@@ -1,6 +1,6 @@
-import { Card, Typography } from 'antd';
-import { Img } from 'react-image';
-import AboutMe from '../assets/images/about_me.jpg';
+import { Card, Typography } from "antd";
+import { Img } from "react-image";
+import AboutMe from "../assets/images/about_me.jpg";
 
 const { Title, Paragraph } = Typography;
 
@@ -16,7 +16,7 @@ const AboutUsCard = (props: AboutUsCardProps) => {
       cover={<Img alt="Lifestyle" src={AboutMe} />}
       style={{ width: 300 }}
     >
-      <div style={{ textAlign: 'center' }}>
+      <div style={{ textAlign: "center" }}>
         <Title level={3}>{props.name}</Title>
         <Paragraph>{props.intro}</Paragraph>
       </div>
