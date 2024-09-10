@@ -5,6 +5,7 @@ import LoginPage from "./Auth/LoginPage";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import Homepage from "./Homepage/Homepage";
 import NavigationBar from "./NavigationBar/NavigationBar";
+import Hamu26th from "./Specials/Hamu26th";
 import { navigationUrls } from "./util/contants";
 
 const App: React.FC = () => {
@@ -51,6 +52,14 @@ const App: React.FC = () => {
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <Homepage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path={navigationUrls.specials.hamu26}
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Hamu26th />
               </ProtectedRoute>
             }
           />

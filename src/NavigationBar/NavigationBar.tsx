@@ -1,4 +1,5 @@
 import { Affix, Menu } from "antd";
+import SubMenu from "antd/es/menu/SubMenu";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { navigationUrls } from "../util/contants";
@@ -18,10 +19,14 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
     navigate(navigationUrls.home);
   };
 
+  const handleSpecialsItems = (path: string) => {
+    navigate(path);
+  };
+
   const handleLogout = () => {
-    localStorage.removeItem("authenticated"); // Remove authentication status
-    setIsAuthenticated(false); // Update the authentication state
-    navigate(navigationUrls.login); // Redirect to the login page
+    localStorage.removeItem("authenticated");
+    setIsAuthenticated(false);
+    navigate(navigationUrls.login);
   };
 
   return (
@@ -30,6 +35,14 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
         <Menu.Item key="home" onClick={navigateToHome}>
           Home
         </Menu.Item>
+        <SubMenu key="specials" title="Specials">
+          <Menu.Item
+            key="hamu26"
+            onClick={() => handleSpecialsItems(navigationUrls.specials.hamu26)}
+          >
+            Hamu's 26
+          </Menu.Item>
+        </SubMenu>
         {isAuthenticated && (
           <Menu.Item
             key="logout"
