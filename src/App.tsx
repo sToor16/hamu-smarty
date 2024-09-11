@@ -37,7 +37,7 @@ const App: React.FC = () => {
   }, [isAuthenticated, navigate]);
 
   return (
-    <Layout className="layout">
+    <Layout>
       {isAuthenticated && (
         <NavigationBar setIsAuthenticated={setIsAuthenticated} />
       )}
@@ -60,6 +60,14 @@ const App: React.FC = () => {
             element={
               <ProtectedRoute isAuthenticated={isAuthenticated}>
                 <Hamu26th />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="*"
+            element={
+              <ProtectedRoute isAuthenticated={isAuthenticated}>
+                <Homepage />
               </ProtectedRoute>
             }
           />
