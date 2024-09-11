@@ -2,6 +2,7 @@ import { Affix, Menu } from "antd";
 import SubMenu from "antd/es/menu/SubMenu";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Logo from "../assets/images/logo.png";
 import { navigationUrls } from "../util/contants";
 import { useTheme } from "../util/ThemeProvider";
 
@@ -38,8 +39,26 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
         mode="horizontal"
         defaultSelectedKeys={["home"]}
       >
-        <Menu.Item key="home" onClick={navigateToHome}>
-          Home
+        <Menu.Item
+          key="logo"
+          onClick={navigateToHome}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <img
+            src={Logo}
+            alt="Logo"
+            style={{
+              marginTop: "5px",
+              height: "35px",
+              width: "35px",
+              borderRadius: "50%",
+              objectFit: "cover",
+            }}
+          />
         </Menu.Item>
         <SubMenu key="specials" title="Specials">
           <Menu.Item
