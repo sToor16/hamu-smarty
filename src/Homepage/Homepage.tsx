@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import React from "react";
 import { Img } from "react-image";
 import CoverPhoto from "../assets/images/cover_photo.jpg";
-import "./Homepage.css";
 
 const Homepage = () => {
   const overlayTextStyle: React.CSSProperties = {

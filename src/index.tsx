@@ -3,6 +3,8 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+import "./index.css";
+
 const rootElement = document.getElementById("root");
 
 // Type assertion to ensure non-null value
