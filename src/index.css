@@ -1,12 +1,14 @@
 :root {
-  --background-color: #ffffff;
-  --text-color: #000000;
+  --background-color: #121212;
+  --navbar-background-color: rgba(0, 0, 0, 0.7);
+  --text-color: #ffffff;
+  --primary-color: #d75c37;
 }
 
-/* Dark mode theme variables */
-.dark-mode {
-  --background-color: #121212;
-  --text-color: #ffffff;
+.light-theme {
+  --background-color: #ffffff;
+  --navbar-background-color: rgba(255, 255, 255, 0.7);
+  --text-color: #000000;
 }
 
 body {

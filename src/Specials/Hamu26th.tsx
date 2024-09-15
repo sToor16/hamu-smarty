@@ -6,10 +6,8 @@ import AboutMeJpg from "../assets/images/about_me.jpg";
 import HomepageJpg from "../assets/images/homepage.jpg";
 import Homepage2Jpg from "../assets/images/homepage_2.jpg";
 import Harmeen26Video from "../assets/videos/5secs.mp4";
-import { useTheme } from "../util/ThemeProvider";
 
 const Hamu26th = () => {
-  const { isDarkMode } = useTheme();
   const [isTextVisible, setIsTextVisible] = useState(true);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [openModal, setOpenModal] = useState(false);

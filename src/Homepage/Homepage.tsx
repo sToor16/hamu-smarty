@@ -1,6 +1,5 @@
 import { Layout } from "antd";
 import { motion } from "framer-motion";
-import React from "react";
 import { Img } from "react-image";
 import CoverPhoto from "../assets/images/cover_photo.jpg";
 
@@ -23,7 +22,7 @@ const Homepage = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 2 }}
       >
-        <h1>Welcome to Our Story</h1>
+        <h1>Welcome to Our World!</h1>
       </motion.div>
 
       <Img
@@ -33,6 +32,7 @@ const Homepage = () => {
           height: "93vh",
           objectFit: "cover",
           position: "relative",
+          zIndex: 0,
         }}
       />
     </Layout>

@@ -4,7 +4,7 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import LoginPage from "./Auth/LoginPage";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import Homepage from "./Homepage/Homepage";
-import NavigationBar from "./NavigationBar/NavigationBar";
+import Navbar from "./NavigationBar/Navbar";
 import Hamu26th from "./Specials/Hamu26th";
 import { navigationUrls } from "./util/contants";
 import { ThemeProvider } from "./util/ThemeProvider";
@@ -37,9 +37,7 @@ const App: React.FC = () => {
   return (
     <ThemeProvider>
       <Layout>
-        {isAuthenticated && (
-          <NavigationBar setIsAuthenticated={setIsAuthenticated} />
-        )}
+        {isAuthenticated && <Navbar setIsAuthenticated={setIsAuthenticated} />}
         <Layout>
           <Routes>
             <Route

@@ -1,0 +1,142 @@
+/* Navbar.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 2rem;
+  background-color: var(--navbar-background-color);
+  color: var(--text-color);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 30;
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 40;
+}
+
+.hamburger .bar {
+  width: 25px;
+  height: 3px;
+  background-color: currentColor;
+  margin: 4px 0;
+  transition: all 0.3s ease;
+}
+
+/* Mobile Menu */
+.menu {
+  list-style: none;
+  position: fixed;
+  top: 0;
+  right: 0; /* Changed from left: 0 to right: 0 */
+  width: 100%;
+  height: 100vh;
+  padding: 1rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+/* Menu Links */
+.menu li {
+  margin: 10px 0;
+}
+
+.menu li a,
+.menu li button {
+  color: inherit;
+  text-decoration: none;
+  font-size: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Menu for large screens */
+.menu-large {
+  display: none;
+  list-style: none;
+  margin: 0;
+}
+
+.menu-large li {
+  display: inline-block;
+  margin-left: 2rem;
+}
+
+.menu li a,
+.menu li button,
+.menu-large li a,
+.menu-large li button {
+  color: inherit;
+  text-decoration: none;
+  font-size: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+/* Hover effect */
+.menu li a:hover,
+.menu li button:hover,
+.menu-large li a:hover,
+.menu-large li button:hover {
+  color: var(--primary-color); /* Change text color on hover */
+}
+
+/* Underline effect */
+.menu li a::after,
+.menu li button::after,
+.menu-large li a::after,
+.menu-large li button::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px; /* Adjust as needed */
+  width: 0;
+  height: 2px;
+  background-color: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+/* Animate underline on hover */
+.menu li a:hover::after,
+.menu li button:hover::after,
+.menu-large li a:hover::after,
+.menu-large li button:hover::after {
+  width: 100%;
+}
+
+/* Responsive design */
+@media (min-width: 768px) {
+  .hamburger {
+    display: none;
+  }
+
+  .menu {
+    display: none;
+  }
+
+  .menu-large {
+    display: flex;
+  }
+}
