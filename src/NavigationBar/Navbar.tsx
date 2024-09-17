@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
-import { FaMoon, FaPaintBrush, FaSun } from "react-icons/fa";
+import { FaMoon, FaSun } from "react-icons/fa";
+import { FaWandMagicSparkles } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/images/logo.png";
 import { navigationUrls } from "../util/contants";
@@ -123,28 +124,28 @@ const Navbar: React.FC<NavbarProps> = ({ setIsAuthenticated }) => {
           </motion.div>
         </li>
 
-        <li>
-          <div className="theme-options-small">
-            <motion.button
-              className={`theme-button ${
-                currentTheme === Theme.Light ? "active-theme" : ""
-              }`}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setTheme(Theme.Light)}
-            >
-              <FaSun size={20} />
-            </motion.button>
-            <motion.button
-              className={`theme-button ${
-                currentTheme === Theme.Dark ? "active-theme" : ""
-              }`}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setTheme(Theme.Dark)}
-            >
-              <FaMoon size={20} />
-            </motion.button>
-          </div>
-        </li>
+        <div className="theme-options-small">
+          <motion.button
+            className={`theme-button ${
+              currentTheme === Theme.Light ? "active-theme" : ""
+            }`}
+            whileTap={{ scale: 0.95 }}
+            style={{ margin: "0px 4px" }}
+            onClick={() => setTheme(Theme.Light)}
+          >
+            <FaSun size={20} />
+          </motion.button>
+          <motion.button
+            className={`theme-button ${
+              currentTheme === Theme.Dark ? "active-theme" : ""
+            }`}
+            whileTap={{ scale: 0.95 }}
+            style={{ margin: "0px 4px" }}
+            onClick={() => setTheme(Theme.Dark)}
+          >
+            <FaMoon size={20} />
+          </motion.button>
+        </div>
 
         {isAuthenticated && (
           <li>
@@ -165,7 +166,7 @@ const Navbar: React.FC<NavbarProps> = ({ setIsAuthenticated }) => {
         {/* Theme Switcher Icon for Large Screens */}
         <li>
           <div className="theme-switcher-large">
-            <FaPaintBrush size={20} />
+            <FaWandMagicSparkles size={20} />
             <motion.div
               className="theme-menu"
               initial={false}
@@ -183,6 +184,7 @@ const Navbar: React.FC<NavbarProps> = ({ setIsAuthenticated }) => {
                     currentTheme === Theme.Light ? "active-theme" : ""
                   }`}
                   whileTap={{ scale: 0.95 }}
+                  style={{ margin: "0px 4px" }}
                   onClick={() => setTheme(Theme.Light)}
                 >
                   <FaSun size={15} />
@@ -192,6 +194,7 @@ const Navbar: React.FC<NavbarProps> = ({ setIsAuthenticated }) => {
                     currentTheme === Theme.Dark ? "active-theme" : ""
                   }`}
                   whileTap={{ scale: 0.95 }}
+                  style={{ margin: "0px 4px" }}
                   onClick={() => setTheme(Theme.Dark)}
                 >
                   <FaMoon size={15} />
