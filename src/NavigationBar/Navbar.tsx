@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
+import { FaMoon, FaPaintBrush, FaSun } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/images/logo.png";
 import { navigationUrls } from "../util/contants";
-import { Theme, useTheme } from "../util/ThemeProvider"; // Import new Theme and useTheme hook
+import { Theme, useTheme } from "../util/ThemeProvider";
 import "./Navbar.css";
 
 interface NavbarProps {
@@ -17,14 +18,13 @@ const Navbar: React.FC<NavbarProps> = ({ setIsAuthenticated }) => {
   );
 
   const { currentTheme, setTheme } = useTheme();
+  console.log(currentTheme);
   const location = useLocation();
 
-  // Close the menu when the route changes
   useEffect(() => {
     setIsOpen(false);
   }, [location]);
 
-  // Lock scroll when menu is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -36,12 +36,10 @@ const Navbar: React.FC<NavbarProps> = ({ setIsAuthenticated }) => {
     };
   }, [isOpen]);
 
-  // Toggle menu state
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  // Framer Motion variants for menu animation (from right side)
   const menuVariants = {
     open: {
       x: 0,
@@ -53,7 +51,7 @@ const Navbar: React.FC<NavbarProps> = ({ setIsAuthenticated }) => {
       },
     },
     closed: {
-      x: "100%", // start off the right side
+      x: "100%",
       opacity: 0,
       transition: {
         type: "spring",
@@ -63,46 +61,14 @@ const Navbar: React.FC<NavbarProps> = ({ setIsAuthenticated }) => {
     },
   };
 
-  // Framer Motion variants for hamburger icon animation
-  const topBarVariants = {
-    open: {
-      rotate: 45,
-      y: 10.5,
-      width: 35.36,
-      transition: { duration: 0.3 },
-    },
-    closed: { rotate: 0, y: 0, width: 25, transition: { duration: 0.3 } },
-  };
-
-  const middleBarVariants = {
-    open: { opacity: 0, transition: { duration: 0.3 } },
-    closed: { opacity: 1, transition: { duration: 0.3 } },
-  };
-
-  const bottomBarVariants = {
-    open: {
-      rotate: -45,
-      y: -10.5,
-      width: 35.36,
-      transition: { duration: 0.3 },
-    },
-    closed: { rotate: 0, y: 0, width: 25, transition: { duration: 0.3 } },
-  };
-
   const handleLogout = () => {
     localStorage.removeItem("authenticated");
     setAuth(false);
     setIsAuthenticated(false);
   };
 
-  // Array of available themes
-  const themes = Object.values(Theme);
-  const nextThemeIndex = (themes.indexOf(currentTheme) + 1) % themes.length;
-  const nextTheme = themes[nextThemeIndex];
-
   return (
     <nav className="navbar">
-      {/* Logo */}
       <div className="logo">
         <img
           src={Logo}
@@ -117,26 +83,32 @@ const Navbar: React.FC<NavbarProps> = ({ setIsAuthenticated }) => {
         />
       </div>
 
-      {/* Hamburger Icon */}
       <div className="hamburger" onClick={toggleMenu}>
         <motion.div
           className="bar"
-          variants={topBarVariants}
-          animate={isOpen ? "open" : "closed"}
+          animate={
+            isOpen
+              ? { rotate: 45, y: 10.5, width: 35.36 }
+              : { rotate: 0, y: 0, width: 25 }
+          }
+          transition={{ duration: 0.3 }}
         />
         <motion.div
           className="bar"
-          variants={middleBarVariants}
-          animate={isOpen ? "open" : "closed"}
+          animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
+          transition={{ duration: 0.3 }}
         />
         <motion.div
           className="bar"
-          variants={bottomBarVariants}
-          animate={isOpen ? "open" : "closed"}
+          animate={
+            isOpen
+              ? { rotate: -45, y: -10.5, width: 35.36 }
+              : { rotate: 0, y: 0, width: 25 }
+          }
+          transition={{ duration: 0.3 }}
         />
       </div>
 
-      {/* Sliding Menu for Small Screens */}
       <motion.ul
         className="menu"
         initial="closed"
@@ -150,14 +122,30 @@ const Navbar: React.FC<NavbarProps> = ({ setIsAuthenticated }) => {
             </Link>
           </motion.div>
         </li>
+
         <li>
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setTheme(nextTheme)}
-          >
-            Switch to {nextTheme.charAt(0).toUpperCase() + nextTheme.slice(1)}{" "}
-          </motion.button>
+          <div className="theme-options-small">
+            <motion.button
+              className={`theme-button ${
+                currentTheme === Theme.Light ? "active-theme" : ""
+              }`}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setTheme(Theme.Light)}
+            >
+              <FaSun size={20} />
+            </motion.button>
+            <motion.button
+              className={`theme-button ${
+                currentTheme === Theme.Dark ? "active-theme" : ""
+              }`}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setTheme(Theme.Dark)}
+            >
+              <FaMoon size={20} />
+            </motion.button>
+          </div>
         </li>
+
         {isAuthenticated && (
           <li>
             <motion.button whileTap={{ scale: 0.95 }} onClick={handleLogout}>
@@ -167,21 +155,52 @@ const Navbar: React.FC<NavbarProps> = ({ setIsAuthenticated }) => {
         )}
       </motion.ul>
 
-      {/* Menu for Large Screens */}
       <ul className="menu-large">
         <li>
           <motion.div whileTap={{ scale: 0.95 }}>
             <Link to={navigationUrls.specials.hamu26}>Hamu's 26th</Link>
           </motion.div>
         </li>
+
+        {/* Theme Switcher Icon for Large Screens */}
         <li>
-          <motion.button
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setTheme(nextTheme)}
-          >
-            Switch to {nextTheme.charAt(0).toUpperCase() + nextTheme.slice(1)}{" "}
-          </motion.button>
+          <div className="theme-switcher-large">
+            <FaPaintBrush size={20} />
+            <motion.div
+              className="theme-menu"
+              initial={false}
+              animate={{ opacity: 1, scaleY: 1 }}
+              exit={{ opacity: 0, scaleY: 0 }}
+              transition={{ duration: 0.2 }}
+              style={{
+                backgroundColor: "var(--navbar-background-color)",
+                color: "var(--text-color)",
+              }}
+            >
+              <div className="theme-grid">
+                <motion.button
+                  className={`theme-button ${
+                    currentTheme === Theme.Light ? "active-theme" : ""
+                  }`}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setTheme(Theme.Light)}
+                >
+                  <FaSun size={15} />
+                </motion.button>
+                <motion.button
+                  className={`theme-button ${
+                    currentTheme === Theme.Dark ? "active-theme" : ""
+                  }`}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setTheme(Theme.Dark)}
+                >
+                  <FaMoon size={15} />
+                </motion.button>
+              </div>
+            </motion.div>
+          </div>
         </li>
+
         {isAuthenticated && (
           <li>
             <motion.button whileTap={{ scale: 0.95 }} onClick={handleLogout}>
