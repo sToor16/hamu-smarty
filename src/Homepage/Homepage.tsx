@@ -1,12 +1,12 @@
 import { Layout } from "antd";
 import { motion } from "framer-motion";
 import { Img } from "react-image";
-import CoverPhoto from "../assets/images/cover_photo.jpg";
+import HomePage from "../assets/images/home_page_sedona.jpg";
 
 const Homepage = () => {
   const overlayTextStyle: React.CSSProperties = {
     position: "absolute",
-    top: "30%",
+    top: "70%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     fontSize: "2rem",
@@ -26,7 +26,7 @@ const Homepage = () => {
       </motion.div>
 
       <Img
-        src={CoverPhoto}
+        src={HomePage}
         style={{
           width: "100vw",
           height: "93vh",
