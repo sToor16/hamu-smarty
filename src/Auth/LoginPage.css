@@ -1,16 +1,113 @@
 .login-container {
-  background-size: cover;
-  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
+  background-color: var(--background-color);
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .login-card {
-  border-radius: 10px;
-  padding: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  background-color: rgba(255, 255, 255, 0.9);
+  background: linear-gradient(
+    145deg,
+    rgba(20, 20, 20, 0.8),
+    rgba(30, 30, 30, 0.8)
+  );
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  backdrop-filter: blur(10px);
 }
 
-.ant-form-item {
-  margin-bottom: 16px;
+/* Form title with better readability */
+.login-title {
+  font-size: 24px;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+/* Form description text */
+.login-text {
+  color: #b0b0b0;
+  margin-bottom: 30px;
+}
+
+/* Align form inputs vertically */
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style for each form group (input container) */
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+/* Input labels with light color */
+.form-group label {
+  color: #ffffff;
+  font-size: 14px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Inputs styled with rounded corners and a dark background */
+.login-input {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  transition: all 0.3s;
+}
+
+/* Focus and hover effects for inputs */
+.login-input:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(24, 144, 255, 0.8);
+}
+
+/* Error message styling */
+.error-message {
+  color: red;
+  margin-bottom: 20px;
+}
+
+/* Button with a gradient and smooth transitions */
+.login-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(0, 90, 200, 1), rgba(0, 150, 240, 1));
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+/* Button hover effect */
+.login-button:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(0, 130, 230, 1),
+    rgba(0, 170, 250, 1)
+  );
+}
+
+/* Button press effect */
+.login-button:active {
+  transform: scale(0.97);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 150, 250, 1),
+    rgba(0, 190, 255, 1)
+  );
 }

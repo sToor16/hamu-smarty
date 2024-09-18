@@ -1,30 +1,50 @@
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Form, Input, Row, Typography } from "antd";
+import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { users } from "./authConfig";
+import { users } from "./authConfig"; // Assuming you have an authConfig.ts file with user credentials
 import "./LoginPage.css";
 
-const { Title, Text } = Typography;
-
 interface LoginPageProps {
-  setIsAuthenticated: (auth: boolean) => void;
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
+
+const inputVariants = {
+  hover: { scale: 1.05, transition: { duration: 0.3 } },
+  focus: {
+    borderColor: "#1890ff",
+    boxShadow: "0 0 5px rgba(24, 144, 255, 0.8)",
+  },
+};
+
+const buttonVariants = {
+  hover: {
+    scale: 1.05,
+    backgroundColor: "#40a9ff",
+    transition: { duration: 0.3 },
+  },
+  tap: { scale: 0.95 },
+};
 
 const LoginPage: React.FC<LoginPageProps> = ({ setIsAuthenticated }) => {
   const [error, setError] = useState("");
+  const [form, setForm] = useState({ username: "", password: "" });
   const navigate = useNavigate();
 
   useEffect(() => {
-    // If already authenticated, redirect to home
     const isAuthenticated = localStorage.getItem("authenticated") === "true";
     if (isAuthenticated) {
-      navigate("/"); // Redirect to home page if logged in
+      navigate("/");
     }
   }, [navigate]);
 
-  const handleLogin = (values: { username: string; password: string }) => {
-    const { username, password } = values;
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const { username, password } = form;
 
     const user = users.find(
       (user) => user.username === username && user.password === password,
@@ -33,64 +53,68 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsAuthenticated }) => {
     if (user) {
       setError("");
       localStorage.setItem("authenticated", "true");
-      setIsAuthenticated(true); // Update authentication status
-      navigate("/"); // Redirect to home page after successful login
+      setIsAuthenticated(true); // Correct usage of setIsAuthenticated
+      navigate("/");
     } else {
       setError("Invalid credentials. Please try again.");
     }
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
   return (
-    <div className="login-container">
-      <Row justify="center" align="middle" style={{ height: "100vh" }}>
-        <Col xs={22} sm={16} md={12} lg={8}>
-          <Card className="login-card">
-            <Title
-              level={2}
-              style={{ textAlign: "center", marginBottom: "24px" }}
-            >
-              Welcome to Our Story
-            </Title>
-            <Text
-              type="secondary"
-              style={{
-                textAlign: "center",
-                display: "block",
-                marginBottom: "24px",
-              }}
-            >
-              Please log in to continue
-            </Text>
-            <Form name="login" onFinish={handleLogin} layout="vertical">
-              <Form.Item
-                name="username"
-                rules={[{ required: true, message: "Username is required!" }]}
-              >
-                <Input prefix={<UserOutlined />} placeholder="Username" />
-              </Form.Item>
+    <motion.div className="login-container" initial="hidden" animate="visible">
+      <motion.div className="login-card" variants={cardVariants}>
+        <h2 className="login-title">Welcome to Our Story</h2>
+        <p className="login-text">Please log in to continue</p>
 
-              <Form.Item
-                name="password"
-                rules={[{ required: true, message: "Password is required!" }]}
-              >
-                <Input.Password
-                  prefix={<LockOutlined />}
-                  placeholder="Password"
-                />
-              </Form.Item>
+        <form className="login-form" onSubmit={handleLogin}>
+          <motion.div className="form-group" variants={inputVariants}>
+            <label htmlFor="username">Username</label>
+            <motion.input
+              whileHover="hover"
+              whileFocus="focus"
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Username"
+              value={form.username}
+              onChange={handleChange}
+              className="login-input"
+            />
+          </motion.div>
 
-              {error && <Text type="danger">{error}</Text>}
+          <motion.div className="form-group" variants={inputVariants}>
+            <label htmlFor="password">Password</label>
+            <motion.input
+              whileHover="hover"
+              whileFocus="focus"
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Password"
+              value={form.password}
+              onChange={handleChange}
+              className="login-input"
+            />
+          </motion.div>
 
-              <Form.Item>
-                <Button type="primary" htmlType="submit" block>
-                  Log in
-                </Button>
-              </Form.Item>
-            </Form>
-          </Card>
-        </Col>
-      </Row>
-    </div>
+          {error && <motion.p className="error-message">{error}</motion.p>}
+
+          <motion.button
+            type="submit"
+            className="login-button"
+            whileHover="hover"
+            whileTap="tap"
+            variants={buttonVariants}
+          >
+            Log in
+          </motion.button>
+        </form>
+      </motion.div>
+    </motion.div>
   );
 };
 
