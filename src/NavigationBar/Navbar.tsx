@@ -71,17 +71,20 @@ const Navbar: React.FC<NavbarProps> = ({ setIsAuthenticated }) => {
   return (
     <nav className="navbar">
       <div className="logo">
-        <img
-          src={Logo}
-          alt="Logo"
-          style={{
-            marginTop: "5px",
-            height: "30px",
-            width: "30px",
-            borderRadius: "50%",
-            objectFit: "cover",
-          }}
-        />
+        <Link to="/">
+          <motion.img
+            src={Logo}
+            alt="Logo"
+            style={{
+              marginTop: "5px",
+              height: "30px",
+              width: "30px",
+              borderRadius: "50%",
+              objectFit: "cover",
+            }}
+            whileTap={{ scale: 0.95 }} // Optional: Add a small tap animation
+          />
+        </Link>
       </div>
 
       <div className="hamburger" onClick={toggleMenu}>
@@ -118,7 +121,7 @@ const Navbar: React.FC<NavbarProps> = ({ setIsAuthenticated }) => {
       >
         <li>
           <motion.div whileTap={{ scale: 0.95 }}>
-            <Link to={navigationUrls.specials.hamu26} onClick={toggleMenu}>
+            <Link to={navigationUrls.events.hamu26} onClick={toggleMenu}>
               Hamu's 26th
             </Link>
           </motion.div>
@@ -159,7 +162,7 @@ const Navbar: React.FC<NavbarProps> = ({ setIsAuthenticated }) => {
       <ul className="menu-large">
         <li>
           <motion.div whileTap={{ scale: 0.95 }}>
-            <Link to={navigationUrls.specials.hamu26}>Hamu's 26th</Link>
+            <Link to={navigationUrls.events.hamu26}>Hamu's 26th</Link>
           </motion.div>
         </li>
 

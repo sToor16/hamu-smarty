@@ -1,7 +1,7 @@
 export const navigationUrls = {
   home: "/",
   login: "/login",
-  specials: {
-    hamu26: "hamu's-26",
+  events: {
+    hamu26: "events/hamu's-26",
   },
 };
