@@ -4,22 +4,22 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import { FaWandMagicSparkles } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/images/logo.png";
+import { users } from "../Auth/authConfig";
 import { navigationUrls } from "../util/contants";
 import { Theme, useTheme } from "../util/ThemeProvider";
 import "./Navbar.css";
 
 interface NavbarProps {
   setIsAuthenticated: (isAuthenticated: boolean) => void;
+  isAuthenticated: boolean;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ setIsAuthenticated }) => {
+const Navbar: React.FC<NavbarProps> = ({
+  setIsAuthenticated,
+  isAuthenticated,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isAuthenticated, setAuth] = useState(
-    localStorage.getItem("authenticated") === "true",
-  );
-
   const { currentTheme, setTheme } = useTheme();
-  console.log(currentTheme);
   const location = useLocation();
 
   useEffect(() => {
@@ -63,8 +63,9 @@ const Navbar: React.FC<NavbarProps> = ({ setIsAuthenticated }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("authenticated");
-    setAuth(false);
+    users.forEach((user) => {
+      localStorage.removeItem(user.key);
+    });
     setIsAuthenticated(false);
   };
 
@@ -82,7 +83,7 @@ const Navbar: React.FC<NavbarProps> = ({ setIsAuthenticated }) => {
               borderRadius: "50%",
               objectFit: "cover",
             }}
-            whileTap={{ scale: 0.95 }} // Optional: Add a small tap animation
+            whileTap={{ scale: 0.95 }}
           />
         </Link>
       </div>

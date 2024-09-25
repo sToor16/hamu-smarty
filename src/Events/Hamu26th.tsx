@@ -118,12 +118,6 @@ const Hamu26th = () => {
     borderRadius: "20px",
   };
 
-  const imageVariants = {
-    hidden: { scale: 0.7, opacity: 0.5 },
-    visible: { scale: 1, opacity: 1, transition: { duration: 0.8 } },
-    exit: { scale: 0.7, opacity: 0.5, transition: { duration: 0.5 } },
-  };
-
   return (
     <div id="scroll-container" style={containerStyle}>
       <section style={mainVideoContainer}>
@@ -190,21 +184,25 @@ const Hamu26th = () => {
             initial="hidden"
             whileInView="visible"
             exit="exit"
-            viewport={{ once: false, amount: 0.5 }}
-            variants={imageVariants}
+            viewport={{ once: true, amount: 0.9 }}
+            variants={{
+              hidden: { scale: 0.7, opacity: 0.5 },
+              visible: { scale: 1, opacity: 1, transition: { duration: 0.8 } },
+              exit: { scale: 0.7, opacity: 0.5, transition: { duration: 0.5 } },
+            }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
             <div style={quoteStyle}>
               Cheers to 26 years of laughter, growth, and endless adventures!
-              <br></br>
-              <br></br>
+              <br />
+              <br />
               Happy Birthday!
             </div>
           </motion.div>
         </Row>
 
         <Row gutter={[16, 16]}>
-          {[HomepageJpg, AboutMeJpg, HomepageJpg, Homepage2Jpg].map(
+          {[HomepageJpg, AboutMeJpg, HomepageJpg, Homepage2Jpg, AboutMeJpg].map(
             (image, index) => (
               <Col
                 xs={24}

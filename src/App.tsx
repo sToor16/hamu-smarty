@@ -1,6 +1,7 @@
 import { Layout } from "antd";
 import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { users } from "./Auth/authConfig"; // Assuming this contains the user data
 import LoginPage from "./Auth/LoginPage";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import Hamu26th from "./Events/Hamu26th";
@@ -10,17 +11,31 @@ import { navigationUrls } from "./util/contants";
 import { ThemeProvider } from "./util/ThemeProvider";
 
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem("authenticated") === "true",
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
+
+  // Function to check if user is authenticated by verifying cryptic key-value pair
+  const checkAuthentication = () => {
+    return users.some((user) => {
+      const storedValue = localStorage.getItem(user.key);
+      return storedValue === user.value;
+    });
+  };
+
+  useEffect(() => {
+    // On mount, check if the user is authenticated
+    const authStatus = checkAuthentication();
+    setIsAuthenticated(authStatus);
+  }, []);
 
   useEffect(() => {
     const authListener = () => {
-      const authStatus = localStorage.getItem("authenticated") === "true";
+      // Recheck authentication when localStorage changes
+      const authStatus = checkAuthentication();
       setIsAuthenticated(authStatus);
     };
 
+    // Listen for localStorage changes (e.g., another tab logs in/out)
     window.addEventListener("storage", authListener);
 
     return () => {
@@ -29,6 +44,7 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    // Navigate to login page if user is not authenticated
     if (!isAuthenticated) {
       navigate(navigationUrls.login);
     }
@@ -37,7 +53,12 @@ const App: React.FC = () => {
   return (
     <ThemeProvider>
       <Layout>
-        {isAuthenticated && <Navbar setIsAuthenticated={setIsAuthenticated} />}
+        {isAuthenticated && (
+          <Navbar
+            setIsAuthenticated={setIsAuthenticated}
+            isAuthenticated={isAuthenticated}
+          />
+        )}
         <Layout>
           <Routes>
             <Route

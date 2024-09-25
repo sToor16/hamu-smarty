@@ -36,7 +36,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem("authenticated") === "true";
+    const isAuthenticated = users.some((user) => {
+      const storedValue = localStorage.getItem(user.key);
+      return storedValue === user.value;
+    });
+
     if (isAuthenticated) {
       navigate("/");
     }
@@ -52,8 +56,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsAuthenticated }) => {
 
     if (user) {
       setError("");
-      localStorage.setItem("authenticated", "true");
-      setIsAuthenticated(true); // Correct usage of setIsAuthenticated
+      localStorage.setItem(user.key, user.value);
+
+      setIsAuthenticated(true);
       navigate("/");
     } else {
       setError("Invalid credentials. Please try again.");
