@@ -11,10 +11,10 @@ import { navigationUrls } from "./util/contants";
 import { ThemeProvider } from "./util/ThemeProvider";
 
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
-  // Function to check if user is authenticated by verifying cryptic key-value pair
   const checkAuthentication = () => {
     return users.some((user) => {
       const storedValue = localStorage.getItem(user.key);
@@ -23,19 +23,17 @@ const App: React.FC = () => {
   };
 
   useEffect(() => {
-    // On mount, check if the user is authenticated
     const authStatus = checkAuthentication();
     setIsAuthenticated(authStatus);
+    setIsAuthLoading(false);
   }, []);
 
   useEffect(() => {
     const authListener = () => {
-      // Recheck authentication when localStorage changes
       const authStatus = checkAuthentication();
       setIsAuthenticated(authStatus);
     };
 
-    // Listen for localStorage changes (e.g., another tab logs in/out)
     window.addEventListener("storage", authListener);
 
     return () => {
@@ -44,11 +42,14 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Navigate to login page if user is not authenticated
-    if (!isAuthenticated) {
+    if (!isAuthLoading && !isAuthenticated) {
       navigate(navigationUrls.login);
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, isAuthLoading, navigate]);
+
+  if (isAuthLoading) {
+    return null;
+  }
 
   return (
     <ThemeProvider>
