@@ -2,10 +2,14 @@ import { Col, Modal, Row } from "antd";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
-import AboutMeJpg from "../assets/images/about_me.jpg";
-import HomepageJpg from "../assets/images/homepage.jpg";
-import Homepage2Jpg from "../assets/images/homepage_2.jpg";
-import Harmeen26Video from "../assets/videos/5secs.mp4";
+import FirstJpg from "../assets/images/1.jpg";
+import SecondJpg from "../assets/images/2.jpg";
+import FourthJpg from "../assets/images/4.jpg";
+import FifthJpg from "../assets/images/5.jpg";
+import SixthJpg from "../assets/images/6.jpg";
+import SeventhJpg from "../assets/images/7.jpg";
+import EighthJpg from "../assets/images/8.jpg";
+import Harmeen26Video from "../assets/videos/harmeen-26-video-1.mp4";
 
 const Hamu26th = () => {
   const [isTextVisible, setIsTextVisible] = useState(true);
@@ -202,33 +206,39 @@ const Hamu26th = () => {
         </Row>
 
         <Row gutter={[16, 16]}>
-          {[HomepageJpg, AboutMeJpg, HomepageJpg, Homepage2Jpg, AboutMeJpg].map(
-            (image, index) => (
-              <Col
-                xs={24}
-                sm={24}
-                md={6}
-                lg={6}
-                xl={6}
-                key={index}
-                style={{ padding: "20px" }}
+          {[
+            FirstJpg,
+            SecondJpg,
+            FourthJpg,
+            FifthJpg,
+            SixthJpg,
+            SeventhJpg,
+            EighthJpg,
+          ].map((image, index) => (
+            <Col
+              xs={24}
+              sm={24}
+              md={6}
+              lg={6}
+              xl={6}
+              key={index}
+              style={{ padding: "20px" }}
+            >
+              <motion.div
+                initial="hidden"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => handleImageClick(image)}
+                style={{ cursor: "pointer" }}
               >
-                <motion.div
-                  initial="hidden"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => handleImageClick(image)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <img
-                    src={image}
-                    alt={`Hamu's Cake ${index}`}
-                    style={imageStyle}
-                  />
-                </motion.div>
-              </Col>
-            ),
-          )}
+                <img
+                  src={image}
+                  alt={`Hamu's Cake ${index}`}
+                  style={imageStyle}
+                />
+              </motion.div>
+            </Col>
+          ))}
         </Row>
       </section>
     </div>
