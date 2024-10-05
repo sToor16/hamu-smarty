@@ -1,7 +1,8 @@
 import { Layout } from "antd";
 import React, { useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import { users } from "./Auth/authConfig"; // Assuming this contains the user data
+import ReactGA from "react-ga4";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { users } from "./Auth/authConfig";
 import LoginPage from "./Auth/LoginPage";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import Hamu26th from "./Events/Hamu26th";
@@ -10,18 +11,35 @@ import Navbar from "./NavigationBar/Navbar";
 import { navigationUrls } from "./util/contants";
 import { ThemeProvider } from "./util/ThemeProvider";
 
+const GA_TRACKING_ID = "G-GV1G062DFJ";
+
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
+  const [userId, setUserId] = useState<string | null>(null);
   const navigate = useNavigate();
+  const routerLocation = useLocation();
+
+  useEffect(() => {
+    ReactGA.initialize(GA_TRACKING_ID);
+  }, []);
+
+  useEffect(() => {
+    ReactGA.send({ hitType: "pageview", page: routerLocation.pathname });
+  }, [routerLocation]);
 
   const checkAuthentication = () => {
-    return users.some((user) => {
+    const authenticatedUser = users.find((user) => {
       const storedValue = localStorage.getItem(user.key);
       return storedValue === user.value;
     });
-  };
 
+    if (authenticatedUser) {
+      setUserId(authenticatedUser.username);
+      return true;
+    }
+    return false;
+  };
   useEffect(() => {
     const authStatus = checkAuthentication();
     setIsAuthenticated(authStatus);
@@ -45,7 +63,11 @@ const App: React.FC = () => {
     if (!isAuthLoading && !isAuthenticated) {
       navigate(navigationUrls.login);
     }
-  }, [isAuthenticated, isAuthLoading, navigate]);
+
+    if (isAuthenticated) {
+      ReactGA.set({ userId: userId });
+    }
+  }, [isAuthenticated, isAuthLoading, navigate, userId]);
 
   if (isAuthLoading) {
     return null;
