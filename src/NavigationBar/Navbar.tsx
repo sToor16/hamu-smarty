@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
-import { FaMoon, FaSun } from "react-icons/fa";
+import { FaMoon, FaSun, FaTree } from "react-icons/fa";
 import { FaWandMagicSparkles } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/images/logo.png";
@@ -202,6 +202,15 @@ const Navbar: React.FC<NavbarProps> = ({
                   onClick={() => setTheme(Theme.Dark)}
                 >
                   <FaMoon size={15} />
+                </motion.button>
+                <motion.button
+                  className={`theme-button ${
+                    currentTheme === Theme.Christmas ? "active-theme" : ""
+                  }`}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setTheme(Theme.Christmas)}
+                >
+                  <FaTree size={15} />
                 </motion.button>
               </div>
             </motion.div>

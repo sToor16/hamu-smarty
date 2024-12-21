@@ -12,6 +12,13 @@
   --primary-color: #d75c37;
 }
 
+.christmas-theme {
+  --background-color: rgba(124, 17, 17, 0.8);
+  --navbar-background-color: rgba(124, 17, 17, 0.8);
+  --text-color: #ffffff;
+  --primary-color: #388e3c;
+}
+
 body {
   margin: 0 !important;
   padding: 0 !important;

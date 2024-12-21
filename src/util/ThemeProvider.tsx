@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 export enum Theme {
   Light = "light",
   Dark = "dark",
+  Christmas = "christmas",
 }
 
 const ThemeContext = createContext({
@@ -35,7 +36,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [currentTheme]);
 
   return (
-    <ThemeContext.Provider value={{ currentTheme, setTheme: setTheme }}>
+    <ThemeContext.Provider value={{ currentTheme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );
