@@ -1,8 +1,7 @@
 import { Layout } from "antd";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
-import ReactGA from "react-ga4";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import LoginPage from "./Auth/LoginPage";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import Hamu26th from "./Events/Hamu26th";
@@ -12,22 +11,10 @@ import Navbar from "./NavigationBar/Navbar";
 import { navigationUrls } from "./util/contants";
 import { ThemeProvider } from "./util/ThemeProvider";
 
-const GA_TRACKING_ID = "G-GV1G062DFJ";
-
 const App: React.FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isAuthLoading, setIsAuthLoading] = useState<boolean>(true);
-  const [userId, setUserId] = useState<string | null>(null);
   const navigate = useNavigate();
-  const routerLocation = useLocation();
-
-  useEffect(() => {
-    ReactGA.initialize(GA_TRACKING_ID);
-  }, []);
-
-  useEffect(() => {
-    ReactGA.send({ hitType: "pageview", page: routerLocation.pathname });
-  }, [routerLocation]);
 
   const checkAuthentication = async (): Promise<boolean> => {
     const token = Cookies.get("auth_token");
@@ -78,11 +65,7 @@ const App: React.FC = () => {
     if (!isAuthLoading && !isAuthenticated) {
       navigate(navigationUrls.login);
     }
-
-    if (isAuthenticated) {
-      ReactGA.set({ userId: userId });
-    }
-  }, [isAuthenticated, isAuthLoading, navigate, userId]);
+  }, [isAuthenticated, isAuthLoading, navigate]);
 
   if (isAuthLoading) {
     return null;
