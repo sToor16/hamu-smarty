@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
+import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { users } from "./authConfig"; // Assuming you have an authConfig.ts file with user credentials
+import { getLoginUserGql, getVerifyTokenGql } from "../gqlService/auth";
 import "./LoginPage.css";
 
 interface LoginPageProps {
@@ -36,32 +37,61 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const isAuthenticated = users.some((user) => {
-      const storedValue = localStorage.getItem(user.key);
-      return storedValue === user.value;
-    });
+    const verifyToken = async () => {
+      const token = Cookies.get("auth_token");
+      if (token !== undefined) {
+        try {
+          const requestOptions = getVerifyTokenGql(token);
+          const response = await fetch(
+            requestOptions.url,
+            requestOptions.params,
+          );
+          const { data, errors } = await response.json();
 
-    if (isAuthenticated) {
-      navigate("/");
-    }
+          if (errors) {
+            console.error("Error verifying token:", errors);
+            return;
+          }
+
+          if (data.verifyToken === true) {
+            setIsAuthenticated(true);
+            navigate("/");
+          }
+        } catch (error) {
+          console.error("Error verifying token:", error);
+        }
+      }
+    };
+
+    verifyToken();
   }, [navigate]);
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { username, password } = form;
 
-    const user = users.find(
-      (user) => user.username === username && user.password === password,
-    );
+    try {
+      const requestOptions = getLoginUserGql({
+        username,
+        password,
+      });
 
-    if (user) {
-      setError("");
-      localStorage.setItem(user.key, user.value);
+      const response = await fetch(requestOptions.url, requestOptions.params);
+      const result = await response.json();
+      const { data, errors } = result;
 
+      if (errors) {
+        setError(errors[0]?.message);
+        return;
+      }
+
+      const token = data.login.token;
+      Cookies.set("auth_token", token, { expires: 7, secure: true });
       setIsAuthenticated(true);
       navigate("/");
-    } else {
-      setError("Invalid credentials. Please try again.");
+    } catch (err) {
+      setError("Something went wrong. Please try again later.");
+      console.error(err);
     }
   };
 

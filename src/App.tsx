@@ -1,11 +1,12 @@
 import { Layout } from "antd";
+import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import ReactGA from "react-ga4";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { users } from "./Auth/authConfig";
 import LoginPage from "./Auth/LoginPage";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import Hamu26th from "./Events/Hamu26th";
+import { getVerifyTokenGql } from "./gqlService/auth";
 import Homepage from "./Homepage/Homepage";
 import Navbar from "./NavigationBar/Navbar";
 import { navigationUrls } from "./util/contants";
@@ -28,27 +29,41 @@ const App: React.FC = () => {
     ReactGA.send({ hitType: "pageview", page: routerLocation.pathname });
   }, [routerLocation]);
 
-  const checkAuthentication = () => {
-    const authenticatedUser = users.find((user) => {
-      const storedValue = localStorage.getItem(user.key);
-      return storedValue === user.value;
-    });
+  const checkAuthentication = async (): Promise<boolean> => {
+    const token = Cookies.get("auth_token");
+    if (token !== undefined) {
+      try {
+        const requestOptions = getVerifyTokenGql(token);
+        const response = await fetch(requestOptions.url, requestOptions.params);
+        const { data, errors } = await response.json();
 
-    if (authenticatedUser) {
-      setUserId(authenticatedUser.username);
-      return true;
+        if (errors) {
+          console.error("Error verifying token:", errors);
+          return false;
+        }
+
+        return data.verifyToken === true;
+      } catch (error) {
+        console.error("Error verifying token:", error);
+        return false;
+      }
     }
+
     return false;
   };
+
   useEffect(() => {
-    const authStatus = checkAuthentication();
-    setIsAuthenticated(authStatus);
-    setIsAuthLoading(false);
+    const authListener = async () => {
+      const authStatus = await checkAuthentication();
+      setIsAuthenticated(authStatus);
+      setIsAuthLoading(false);
+    };
+    authListener();
   }, []);
 
   useEffect(() => {
-    const authListener = () => {
-      const authStatus = checkAuthentication();
+    const authListener = async () => {
+      const authStatus = await checkAuthentication();
       setIsAuthenticated(authStatus);
     };
 

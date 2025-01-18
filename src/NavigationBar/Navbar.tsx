@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
+import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { FaMoon, FaSun, FaTree } from "react-icons/fa";
 import { FaWandMagicSparkles } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/images/logo.png";
-import { users } from "../Auth/authConfig";
 import { navigationUrls } from "../util/contants";
 import { Theme, useTheme } from "../util/ThemeProvider";
 import "./Navbar.css";
@@ -63,9 +63,7 @@ const Navbar: React.FC<NavbarProps> = ({
   };
 
   const handleLogout = () => {
-    users.forEach((user) => {
-      localStorage.removeItem(user.key);
-    });
+    Cookies.remove("auth_token");
     setIsAuthenticated(false);
   };
 
