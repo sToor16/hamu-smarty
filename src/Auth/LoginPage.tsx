@@ -53,6 +53,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsAuthenticated }) => {
             return;
           }
 
+          console.log(data);
           if (data.verifyToken === true) {
             setIsAuthenticated(true);
             navigate("/");
@@ -86,7 +87,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsAuthenticated }) => {
       }
 
       const token = data.login.token;
-      Cookies.set("auth_token", token, { expires: 7, secure: true });
+      Cookies.set("auth_token", token, { expires: 365, secure: true });
       setIsAuthenticated(true);
       navigate("/");
     } catch (err) {
