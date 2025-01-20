@@ -1,4 +1,4 @@
-import { Col, Modal, Row } from "antd";
+import { Col, Row } from "antd";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
@@ -10,6 +10,8 @@ import SixthJpg from "../assets/images/6.jpg";
 import SeventhJpg from "../assets/images/7.jpg";
 import EighthJpg from "../assets/images/8.jpg";
 import Harmeen26Video from "../assets/videos/harmeen-26-video-1.mp4";
+import EnlargedImageModel from "../UiComponents/EnlargedImageModel";
+import ImageModel from "../UiComponents/ImageModel";
 
 const Hamu26th = () => {
   const [isTextVisible, setIsTextVisible] = useState(true);
@@ -165,23 +167,13 @@ const Hamu26th = () => {
       </section>
 
       <section style={imagesContainer}>
-        <Modal
-          open={openModal}
-          footer={null}
-          onCancel={closeModal}
-          centered
-          style={modalStyle}
-          styles={{
-            content: {
-              padding: "0",
-              backgroundColor: "transparent",
-              borderRadius: "20px",
-              boxShadow: "none",
-            },
-          }}
-        >
-          <img src={selectedImage} alt="Enlarged" style={enlargedImageStyle} />
-        </Modal>
+        <EnlargedImageModel
+          openModal={openModal}
+          closeModal={closeModal}
+          selectedImage={selectedImage}
+          modalStyle={modalStyle}
+          enlargedImageStyle={enlargedImageStyle}
+        ></EnlargedImageModel>
 
         <Row gutter={[16, 16]}>
           <motion.div
@@ -224,19 +216,12 @@ const Hamu26th = () => {
               key={index}
               style={{ padding: "20px" }}
             >
-              <motion.div
-                initial="hidden"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => handleImageClick(image)}
-                style={{ cursor: "pointer" }}
-              >
-                <img
-                  src={image}
-                  alt={`Hamu's Cake ${index}`}
-                  style={imageStyle}
-                />
-              </motion.div>
+              <ImageModel
+                image={image}
+                alt=""
+                imageStyle={imageStyle}
+                handleImageClick={handleImageClick}
+              ></ImageModel>
             </Col>
           ))}
         </Row>

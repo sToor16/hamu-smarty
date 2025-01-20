@@ -1,14 +1,13 @@
 import { Layout } from "antd";
-import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import LoginPage from "./Auth/LoginPage";
 import ProtectedRoute from "./Auth/ProtectedRoute";
-import Hamu26th from "./Events/Hamu26th";
-import { getVerifyTokenGql } from "./gqlService/auth";
+import Roka from "./Events/Roka";
+import { isTokenValid } from "./gqlService/auth";
 import Homepage from "./Homepage/Homepage";
 import Navbar from "./NavigationBar/Navbar";
-import { navigationUrls } from "./util/contants";
+import { navigationUrls } from "./util/constants";
 import { ThemeProvider } from "./util/ThemeProvider";
 
 const App: React.FC = () => {
@@ -17,26 +16,12 @@ const App: React.FC = () => {
   const navigate = useNavigate();
 
   const checkAuthentication = async (): Promise<boolean> => {
-    const token = Cookies.get("auth_token");
-    if (token !== undefined) {
-      try {
-        const requestOptions = getVerifyTokenGql(token);
-        const response = await fetch(requestOptions.url, requestOptions.params);
-        const { data, errors } = await response.json();
-
-        if (errors) {
-          console.error("Error verifying token:", errors);
-          return false;
-        }
-
-        return data.verifyToken === true;
-      } catch (error) {
-        console.error("Error verifying token:", error);
-        return false;
-      }
+    try {
+      return await isTokenValid();
+    } catch (error) {
+      console.error("Error verifying token:", error);
+      return false;
     }
-
-    return false;
   };
 
   useEffect(() => {
@@ -95,10 +80,10 @@ const App: React.FC = () => {
               }
             />
             <Route
-              path={navigationUrls.events.hamu26}
+              path={navigationUrls["the-roka"]}
               element={
                 <ProtectedRoute isAuthenticated={isAuthenticated}>
-                  <Hamu26th />
+                  <Roka />
                 </ProtectedRoute>
               }
             />

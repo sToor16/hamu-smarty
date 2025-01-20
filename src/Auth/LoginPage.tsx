@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getLoginUserGql, getVerifyTokenGql } from "../gqlService/auth";
+import { getLoginUserGql, isTokenValid } from "../gqlService/auth";
 import "./LoginPage.css";
 
 interface LoginPageProps {
@@ -38,29 +38,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ setIsAuthenticated }) => {
 
   useEffect(() => {
     const verifyToken = async () => {
-      const token = Cookies.get("auth_token");
-      if (token !== undefined) {
-        try {
-          const requestOptions = getVerifyTokenGql(token);
-          const response = await fetch(
-            requestOptions.url,
-            requestOptions.params,
-          );
-          const { data, errors } = await response.json();
-
-          if (errors) {
-            console.error("Error verifying token:", errors);
-            return;
-          }
-
-          console.log(data);
-          if (data.verifyToken === true) {
-            setIsAuthenticated(true);
-            navigate("/");
-          }
-        } catch (error) {
-          console.error("Error verifying token:", error);
-        }
+      if (await isTokenValid()) {
+        setIsAuthenticated(true);
+        navigate("/");
       }
     };
 

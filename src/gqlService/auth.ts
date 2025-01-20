@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { generateGraphQlRequestBody, RequestBodyParams } from "./util";
 
 type LoginInput = {
@@ -17,15 +18,34 @@ export function getLoginUserGql(input: LoginInput): RequestBodyParams {
   return generateGraphQlRequestBody({ query, input });
 }
 
-export function getVerifyTokenGql(token: string): RequestBodyParams {
+export async function isTokenValid(): Promise<boolean> {
+  const token = Cookies.get("auth_token");
+  if (!token) {
+    return false;
+  }
+
   const query = `
     query Query {
       verifyToken
     }
   `;
 
-  return generateGraphQlRequestBody({
+  const requestOptions = generateGraphQlRequestBody({
     query,
     headers: { authorization: token },
   });
+  const response = await fetch(requestOptions.url, requestOptions.params);
+  const { data, errors } = (await response.json()) as {
+    data: {
+      verifyToken: boolean;
+    };
+    errors: any;
+  };
+
+  if (errors) {
+    console.error("Error verifying token:", errors);
+    return false;
+  }
+
+  return data.verifyToken;
 }

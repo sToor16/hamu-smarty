@@ -5,7 +5,7 @@ import { FaMoon, FaSun, FaTree } from "react-icons/fa";
 import { FaWandMagicSparkles } from "react-icons/fa6";
 import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/images/logo.png";
-import { navigationUrls } from "../util/contants";
+import { navigationUrls } from "../util/constants";
 import { Theme, useTheme } from "../util/ThemeProvider";
 import "./Navbar.css";
 
@@ -120,8 +120,8 @@ const Navbar: React.FC<NavbarProps> = ({
       >
         <li>
           <motion.div whileTap={{ scale: 0.95 }}>
-            <Link to={navigationUrls.events.hamu26} onClick={toggleMenu}>
-              Hamu's 26th
+            <Link to={navigationUrls["the-roka"]} onClick={toggleMenu}>
+              The Roka
             </Link>
           </motion.div>
         </li>
@@ -161,7 +161,7 @@ const Navbar: React.FC<NavbarProps> = ({
       <ul className="menu-large">
         <li>
           <motion.div whileTap={{ scale: 0.95 }}>
-            <Link to={navigationUrls.events.hamu26}>Hamu's 26th</Link>
+            <Link to={navigationUrls["the-roka"]}>The Roka</Link>
           </motion.div>
         </li>
 

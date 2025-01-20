@@ -1,7 +1,6 @@
 import { HamuSmartyPages } from "@sstoor/ts-commons";
 import { Layout } from "antd";
 import { motion } from "framer-motion";
-import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { getPageAssetsS3Urls } from "../gqlService/getPageAssetsS3Urls";
 
@@ -22,34 +21,19 @@ const Homepage = () => {
   useEffect(() => {
     const fetchImageUrl = async () => {
       try {
-        const token = Cookies.get("auth_token");
-        if (!token) {
-          throw new Error("Token not present");
-        }
-
-        const requestOptions = getPageAssetsS3Urls(
-          {
+        const { images } = await getPageAssetsS3Urls({
+          input: {
             pageName: HamuSmartyPages.HOMEPAGE,
           },
-          token,
-        );
-        const response = await fetch(requestOptions.url, requestOptions.params);
-        const { data, errors } = await response.json();
+        });
 
-        if (errors) {
-          console.error("Error fetching images:", errors);
-          return;
-        }
-
-        const homepageUrl = data.getHamuSmartyS3AssetsUrls[0];
-
-        if (homepageUrl) {
-          setImageUrl(homepageUrl);
+        if (images[0]) {
+          setImageUrl(images[0]);
         } else {
           console.error("Homepage URL not found in response.");
         }
       } catch (error) {
-        console.error("Error fetching images:", error);
+        console.error("Error fetching s3 assets urls:", error);
       } finally {
         setIsLoading(false);
       }
