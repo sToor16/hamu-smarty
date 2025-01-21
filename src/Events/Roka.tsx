@@ -3,13 +3,6 @@ import { Col, Row } from "antd";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
-import FirstJpg from "../assets/images/1.jpg";
-import SecondJpg from "../assets/images/2.jpg";
-import FourthJpg from "../assets/images/4.jpg";
-import FifthJpg from "../assets/images/5.jpg";
-import SixthJpg from "../assets/images/6.jpg";
-import SeventhJpg from "../assets/images/7.jpg";
-import EighthJpg from "../assets/images/8.jpg";
 import { getPageAssetsS3Urls } from "../gqlService/getPageAssetsS3Urls";
 import ImageModal from "../UiComponents/EnlargedImageModel";
 
@@ -19,6 +12,7 @@ const Roka = () => {
   const [openModal, setOpenModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
   const [videoUrl, setVideoUrl] = useState<string>("");
+  const [imagesUrls, setImagesUrl] = useState<string[]>([]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -32,10 +26,11 @@ const Roka = () => {
   useEffect(() => {
     const fetchMediaData = async () => {
       try {
-        const { videos } = await getPageAssetsS3Urls({
+        const { videos, images } = await getPageAssetsS3Urls({
           input: { pageName: HamuSmartyPages.THE_ROKA },
         });
         setVideoUrl(videos[0]);
+        setImagesUrl(images);
       } catch (error) {
         console.error("Error fetching page assets:", error);
       }
@@ -214,15 +209,7 @@ const Roka = () => {
         </Row>
 
         <Row gutter={[16, 16]}>
-          {[
-            FirstJpg,
-            SecondJpg,
-            FourthJpg,
-            FifthJpg,
-            SixthJpg,
-            SeventhJpg,
-            EighthJpg,
-          ].map((image, index) => (
+          {imagesUrls.map((image, index) => (
             <Col
               xs={24}
               sm={24}
@@ -254,5 +241,3 @@ const Roka = () => {
 };
 
 export default Roka;
-
-// ffmpeg -i /Users/sstoor/Desktop/roka_cover_video.mp4 -c:v libx264 -crf 23 -preset slow -c:a aac -b:a 128k /Users/sstoor/Desktop/roka_cover_video_output.mp4
