@@ -1,3 +1,4 @@
+import { HamuSmartyPages } from "@sstoor/ts-commons";
 import { Col, Row } from "antd";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -9,7 +10,7 @@ import FifthJpg from "../assets/images/5.jpg";
 import SixthJpg from "../assets/images/6.jpg";
 import SeventhJpg from "../assets/images/7.jpg";
 import EighthJpg from "../assets/images/8.jpg";
-import Harmeen26Video from "../assets/videos/harmeen-26-video-1.mp4";
+import { getPageAssetsS3Urls } from "../gqlService/getPageAssetsS3Urls";
 import ImageModal from "../UiComponents/EnlargedImageModel";
 
 const Roka = () => {
@@ -17,6 +18,7 @@ const Roka = () => {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState("");
+  const [videoUrl, setVideoUrl] = useState<string>("");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -25,6 +27,21 @@ const Roka = () => {
     }, 1000);
 
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    const fetchMediaData = async () => {
+      try {
+        const { videos } = await getPageAssetsS3Urls({
+          input: { pageName: HamuSmartyPages.THE_ROKA },
+        });
+        setVideoUrl(videos[0]);
+      } catch (error) {
+        console.error("Error fetching page assets:", error);
+      }
+    };
+
+    fetchMediaData();
   }, []);
 
   const handleImageClick = (imageSrc: string) => {
@@ -139,7 +156,7 @@ const Roka = () => {
           </motion.div>
 
           <ReactPlayer
-            url={Harmeen26Video}
+            url={videoUrl}
             playing={isVideoPlaying}
             loop={true}
             muted={true}
