@@ -20,3 +20,13 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+//  curl -v -X OPTIONS \
+//   -H "Origin: http://localhost:3000/" \
+//   -H "Access-Control-Request-Method: GET" \
+//      "https://test-permissions-bucket-sstoor.s3.us-west-2.amazonaws.com/DJI_20240513073006_0147_D-comp.jpg"
+
+//  curl -v -X OPTIONS \
+//   -H "Origin: http://localhost:3000/" \
+//   -H "Access-Control-Request-Method: GET" \
+//      "https://sstoor-world-assets.s3.us-west-2.amazonaws.com/hamu-smarty-website-assets/HOMEPAGE/images/DJI_20240513073006_0147_D-comp.jpg"

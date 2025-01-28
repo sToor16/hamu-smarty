@@ -3,7 +3,7 @@ import { Col, Row } from "antd";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
-import { getPageAssetsS3Urls } from "../gqlService/getPageAssetsS3Urls";
+import { getPageAssetsS3Urls } from "../gqlService/getPageAssetsUrls";
 import ImageModal from "../UiComponents/EnlargedImageModel";
 
 const Roka = () => {

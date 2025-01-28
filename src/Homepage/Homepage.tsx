@@ -2,7 +2,7 @@ import { HamuSmartyPages } from "@sstoor/ts-commons";
 import { Layout } from "antd";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { getPageAssetsS3Urls } from "../gqlService/getPageAssetsS3Urls";
+import { getPageAssetsS3Urls } from "../gqlService/getPageAssetsUrls";
 
 const Homepage = () => {
   const [imageUrl, setImageUrl] = useState("");
